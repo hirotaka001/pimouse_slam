@@ -96,7 +96,7 @@ class Motor():
 
         return True
 
-    def send_odm(self):
+    def send_odom(self):
         self.cur_time = rospy.Time.now() # 現在時刻を代入
 
         dt = self.cur_time.to_sec() - self.last_time.to_sec() # 前回の処理からの経過時間を代入。to_sec()はrospy.Timeのメソッド
