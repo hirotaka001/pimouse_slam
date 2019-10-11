@@ -113,14 +113,16 @@ class Motor():
         # base_link：ロボット座標系、odom：オドメトリを計算するためのグローバル座標、
         self.bc_odom.sendTransform((self.x, self.y, 0.0), q, self.cur_time, "base_link", "odom")
 
-        odom = Odometry()
-        odom.header.stamp = self.cur_time
-        odom.header.frame_id = "odom"
-        odom.child_frame_id = "base_link"
+        odom = Odometry() # Odometry型インスタンスの作成。計算した値が入る。
+        odom.header.stamp = self.cur_time # 時刻の指定
+        odom.header.frame_id = "odom" # 親のフレームの指定
+        odom.child_frame_id = "base_link" # 子のフレームの指定
 
+        # 親のフレームに対する子供のフレームの相対姿勢をセット
         odom.pose.pose.position = Point(self.x, self.y, 0)
-        odom.pose.pose.orientation = Quaternion(*q)
+        odom.pose.pose.orientation = Quaternion(*q) # *q
 
+        # 子供のフレームで見たときの子供のフレームの運動をセット
         odom.twist.twist.linear.x = self.vx
         odom.twist.twist.linear.y = 0.0
         odom.twist.twist.angular.z = self.vth
