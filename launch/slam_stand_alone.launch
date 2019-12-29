@@ -3,25 +3,27 @@
   <node pkg="pimouse_slam" name="motors" type="motors.py" required="true" />
 
   <node pkg="urg_node" name="urg_node" type="urg_node" required="true" >
-        <param name="frame_id" value="base_link"/>
+        <param name="frame_id" value="base_link"/> <!-- 自身のフレームをbase_linkであると設定。base_linkはロボットの座標系であるが、2次元平面ではセンサの座標系と座標系と合致しているため。 -->
   </node>
 
-  <arg name="scan_topic" default="/scan" />
-  <arg name="odom_topic" default="/odom" />
+  <arg name="scan_topic" default="/scan" /> <!-- スキャンデータのトピック名を設定。 -->
+  <arg name="odom_topic" default="/odom" /> <!-- オドメトリデータのトピック名を設定。 -->
 
   <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
-    <param name="base_frame" value="base_link"/>
+    <param name="base_frame" value="base_link"/> <!-- フレームを明記。 -->
     <param name="odom_frame" value="odom"/>
 
-    <param name="maxUrange" value="4.0"/>
-    <param name="maxRange" value="4.0"/>
+    <param name="maxUrange" value="4.0"/> <!-- 大きな値があるときに打ち切るためのしきい値。 -->
+    <param name="maxRange" value="4.0"/> <!-- この値以内である場合に信用して障害物がないとみなす値。 -->
+    <!-- maxUrange < センサの最大計測距離のカタログ値 <= maxRange にすべき-->
 
-    <param name="srr" value="0.3"/>
-    <param name="srt" value="0.1"/>
-    <param name="str" value="0.1"/>
-    <param name="stt" value="0.3"/>
+    <!-- オドメトリにどれだけ誤差が生じるかを与える。r：直進、t：回転。 -->
+    <param name="srr" value="0.3"/> <!-- 直進1mあたりの直進方向の誤差[m] -->
+    <param name="srt" value="0.1"/> <!-- 回転1radあたりの直進方向の誤差[m] -->
+    <param name="str" value="0.1"/> <!-- 直進1mあたりの回転方向の誤差[rad] -->
+    <param name="stt" value="0.3"/> <!-- 回転1radあたりの直進方向の誤差[rad] -->
 
-    <param name="particles" value="100"/>
+    <param name="particles" value="100"/> <!-- 地図の候補を作るときの数。ラズパイマウスの場合、移動の誤差が大きいため大きな数を確保したほうが良いが、ハイパワーではないので500-1000などの値は避ける。 -->
 
     <!--<param name="minimumScore" value="100"/>-->
   </node>

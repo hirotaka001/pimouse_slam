@@ -120,7 +120,7 @@ class Motor():
 
         # 親のフレームに対する子供のフレームの相対姿勢をセット
         odom.pose.pose.position = Point(self.x, self.y, 0)
-        odom.pose.pose.orientation = Quaternion(*q) # *q
+        odom.pose.pose.orientation = Quaternion(*q) # *q（リストの中身）をバラバラに分解して引数として渡す
 
         # 子供のフレームで見たときの子供のフレームの運動をセット
         odom.twist.twist.linear.x = self.vx
