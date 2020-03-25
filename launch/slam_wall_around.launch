@@ -1,5 +1,8 @@
 <launch>
-  <node pkg="pimouse_slam" name="keyboard_cmd_vel" type="keyboard_cmd_vel.py" required="true" />
+  <include file="$(find pimouse_ros)/launch/pimouse.launch" />
+  <!-- <node pkg="pimouse_run_corridor" name="wall_around" type="wall_around.py" required="true" /> -->
+  <node pkg="pimouse_slam" name="slam_wall_around" type="slam_wall_around.py" required="true" />
+  <!-- <node pkg="pimouse_slam" name="keyboard_cmd_vel" type="keyboard_cmd_vel.py" required="true" /> -->
   <node pkg="pimouse_slam" name="motors" type="motors.py" required="true" />
 
   <node pkg="urg_node" name="urg_node" type="urg_node" required="true" >
@@ -13,9 +16,9 @@
     <param name="base_frame" value="base_link"/> <!-- フレームを明記。 -->
     <param name="odom_frame" value="odom"/>
 
-    <param name="maxUrange" value="2.0"/> <!-- 大きな値があるときに打ち切るためのしきい値。 -->
-    <param name="maxRange" value="2.0"/> <!-- この値以内である場合に信用して障害物がないとみなす値。 -->
-    <!-- maxUrange < センサの最大測距離のカタログ値 <= maxRange にすべき-->
+    <param name="maxUrange" value="4.0"/> <!-- 大きな値があるときに打ち切るためのしきい値。 -->
+    <param name="maxRange" value="4.0"/> <!-- この値以内である場合に信用して障害物がないとみなす値。 -->
+    <!-- maxUrange < センサの最大計測距離のカタログ値 <= maxRange にすべき-->
 
     <!-- オドメトリにどれだけ誤差が生じるかを与える。r：直進、t：回転。 -->
     <param name="srr" value="0.3"/> <!-- 直進1mあたりの直進方向の誤差[m] -->
